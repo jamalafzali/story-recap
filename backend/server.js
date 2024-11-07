@@ -11,11 +11,6 @@ app.use(express.json()); // Parse JSON bodies
 require('dotenv').config();
 
 // APIS
-
-app.get('/api', (req, res) => {
-    res.json({ message: "Hello from the backend!" })
-});
-
 app.use('/recapStory', recapRoutes)
 
 module.exports = app;
