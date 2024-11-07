@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import CssBaseline from "@mui/material/CssBaseline";
-import { Box } from "@mui/material";
+import Box from "@mui/material/Box";
 import Divider from "@mui/material/Divider";
 import Hero from "./components/Hero";
 import Chatbox from "./components/Chatbox";
@@ -33,29 +33,37 @@ function App() {
   return (
     <AppTheme>
       <CssBaseline enableColorScheme />
-      <Hero
-        bookName={bookName}
-        setBookName={setBookName}
-        pageNumber={pageNumber}
-        setPageNumber={setPageNumber}
-        chapter={chapterNumber}
-        setChapterNumber={setChapterNumber}
-        callStoryRecap={callStoryRecap}
-        loading={loading}
-      />
-      <div>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          minHeight: "100vh",
+          backgroundColor: "background.default",
+        }}
+      >
+        <Hero
+          bookName={bookName}
+          setBookName={setBookName}
+          pageNumber={pageNumber}
+          setPageNumber={setPageNumber}
+          chapter={chapterNumber}
+          setChapterNumber={setChapterNumber}
+          callStoryRecap={callStoryRecap}
+          loading={loading}
+        />
         <Box
           sx={{
             display: "flex",
             justifyContent: "center",
-            backgroundColor: "background.default",
+            flexGrow: 1,
           }}
         >
           <Chatbox summary={summary} />
         </Box>
-        <Divider sx={{ margin: `30px 0` }} />
+        <Box sx={{ flexGrow: 1 }} />
+        <Divider sx={{ margin: "30px 0" }} />
         <GitHubLink />
-      </div>
+      </Box>
     </AppTheme>
   );
 }
