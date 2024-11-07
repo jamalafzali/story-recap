@@ -2,8 +2,6 @@ const OpenAI = require("openai");
 
 exports.recapStory = async (req, res) => {
   try {
-    console.log("Endpoint called");
-
     const { bookName, pageNumber, chapterNumber } = req.body;
 
     if (!bookName || (!pageNumber && !chapterNumber)) {
