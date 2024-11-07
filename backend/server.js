@@ -8,6 +8,7 @@ const PORT = process.env.PORT || 5000; // The port the application will be hoste
 app.use(cors()); // Enable CORS to allow requests from frontend
 app.use(express.json()); // Parse JSON bodies
 
+require('dotenv').config();
 
 // APIS
 

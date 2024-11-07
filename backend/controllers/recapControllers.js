@@ -11,7 +11,7 @@ exports.recapStory = async (req, res) => {
         }
 
         const openai = new OpenAI({
-            apiKey: apiKey
+            apiKey: process.env.OPENAI_API_KEY
         });
 
         let current_position = ''
