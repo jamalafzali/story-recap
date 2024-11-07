@@ -2,13 +2,23 @@ const OpenAI = require('openai')
 
 exports.recapStory = async (req, res) => {
     try {
-
-
         const { bookName, pageNumber, chapterNumber } = req.body
 
         if (!bookName || (!pageNumber && !chapterNumber)) {
             throw new Error('Value cannot be blank')
         }
+
+        // Check if book is legitimate
+        let openLibraryUrl = `https://openlibrary.org/search.json?title=${encodeURIComponent(bookName)}`;
+        await fetch(openLibraryUrl)
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                if (data.numFound === 0) {
+                    throw new Error('I seem to be unable to find this book :(')
+                }
+            });
+
 
         const openai = new OpenAI({
             apiKey: process.env.OPENAI_API_KEY
@@ -43,6 +53,6 @@ exports.recapStory = async (req, res) => {
 
         res.status(201).json({ message: gpt_response })
     } catch (e) {
-        res.status(400).json({ message: `There was an error. ${e}` })
+        res.status(400).json({ message: `Try again. ${e}` })
     }
 }
