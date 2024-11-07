@@ -12,8 +12,10 @@ function App() {
   const [pageNumber, setPageNumber] = useState("");
   const [chapterNumber, setChapterNumber] = useState("");
   const [summary, setSummary] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const callStoryRecap = () => {
+    setLoading(true);
     const userData = { bookName, pageNumber, chapterNumber };
     fetch("http://localhost:5000/recapStory", {
       method: "POST",
@@ -21,7 +23,10 @@ function App() {
       body: JSON.stringify(userData),
     }) // Request to backend API
       .then((response) => response.json())
-      .then((data) => setSummary(data.message))
+      .then((data) => {
+        setSummary(data.message);
+        setLoading(false);
+      })
       .catch((error) => console.error("Error fetching data:", error));
   };
 
@@ -36,6 +41,7 @@ function App() {
         chapter={chapterNumber}
         setChapterNumber={setChapterNumber}
         callStoryRecap={callStoryRecap}
+        loading={loading}
       />
       <div>
         <Box

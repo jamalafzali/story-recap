@@ -1,6 +1,7 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
+import CircularProgress from "@mui/material/CircularProgress";
 import Container from "@mui/material/Container";
 import InputLabel from "@mui/material/InputLabel";
 import Stack from "@mui/material/Stack";
@@ -47,6 +48,7 @@ export default function Hero({
   chapterNumber,
   setChapterNumber,
   callStoryRecap,
+  loading,
 }) {
   return (
     <Box
@@ -183,21 +185,12 @@ export default function Hero({
               size="small"
               sx={{ minWidth: "fit-content" }}
               onClick={callStoryRecap}
+              disabled={loading}
+              startIcon={loading ? <CircularProgress size={20} /> : null}
             >
-              Recap
+              {loading ? "" : "Recap"}
             </Button>
           </Stack>
-          {/* <Typography
-            variant="caption"
-            color="text.secondary"
-            sx={{ textAlign: 'center' }}
-          >
-            By clicking &quot;Start now&quot; you agree to our&nbsp;
-            <Link href="#" color="primary">
-              Terms & Conditions
-            </Link>
-            .
-          </Typography> */}
         </Stack>
       </Container>
     </Box>
