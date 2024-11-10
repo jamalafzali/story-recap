@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
-import CssBaseline from "@mui/material/CssBaseline";
-import Box from "@mui/material/Box";
-import Divider from "@mui/material/Divider";
-import Hero from "./components/Hero";
-import Chatbox from "./components/Chatbox";
+
+import API_BASE_URL from "./config";
 import AppTheme from "./sharedTheme/AppTheme";
+import Box from "@mui/material/Box";
+import Chatbox from "./components/Chatbox";
+import CssBaseline from "@mui/material/CssBaseline";
+import Divider from "@mui/material/Divider";
 import GitHubLink from "./components/GitHub";
+import Hero from "./components/Hero";
 
 function App() {
   const [bookName, setBookName] = useState("");
@@ -17,11 +19,11 @@ function App() {
   const callStoryRecap = () => {
     setLoading(true);
     const userData = { bookName, pageNumber, chapterNumber };
-    fetch("http://localhost:5000/recapStory", {
+    fetch(`${API_BASE_URL}/recapStory`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(userData),
-    }) // Request to backend API
+    })
       .then((response) => response.json())
       .then((data) => {
         setSummary(data.message);
