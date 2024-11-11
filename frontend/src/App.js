@@ -19,17 +19,31 @@ function App() {
   const callStoryRecap = () => {
     setLoading(true);
     const userData = { bookName, pageNumber, chapterNumber };
-    fetch(`${API_BASE_URL}/recapStory`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(userData),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        setSummary(data.message);
+
+    const eventSource = new EventSource(
+      `${API_BASE_URL}/recapStory?` + new URLSearchParams(userData).toString()
+    );
+
+    // Clear previous summary
+    setSummary("");
+
+    // Listen for each message from the server
+    eventSource.onmessage = (event) => {
+      if (event.data === "[DONE]") {
+        eventSource.close();
         setLoading(false);
-      })
-      .catch((error) => console.error("Error fetching data:", error));
+      } else {
+        // Append the streamed chunk to the summary state
+        setSummary((prevSummary) => prevSummary + event.data);
+      }
+    };
+
+    // Handle errors
+    eventSource.onerror = (error) => {
+      console.error("Error receiving streaming data:", error);
+      eventSource.close();
+      setLoading(false);
+    };
   };
 
   return (

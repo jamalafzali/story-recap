@@ -2,7 +2,10 @@ const OpenAI = require("openai");
 
 exports.recapStory = async (req, res) => {
   try {
-    const { bookName, pageNumber, chapterNumber } = req.body;
+    const { bookName, pageNumber, chapterNumber } = req.query;
+    console.log(
+      `Request made with bookName: ${bookName}, pageNumber ${pageNumber}, chapterNumber ${chapterNumber}`
+    );
 
     if (!bookName || (!pageNumber && !chapterNumber)) {
       throw new Error("Value cannot be blank");
@@ -16,6 +19,7 @@ exports.recapStory = async (req, res) => {
       .then((response) => response.json())
       .then((data) => {
         if (data.numFound === 0) {
+          console.log("Cannot find this book in database");
           throw new Error("I seem to be unable to find this book :(");
         }
       });
@@ -35,8 +39,9 @@ exports.recapStory = async (req, res) => {
       current_position += ` chapter ${chapterNumber}`;
     }
 
-    const completion = await openai.chat.completions.create({
+    const stream = await openai.chat.completions.create({
       model: "gpt-4o",
+      stream: true,
       messages: [
         {
           role: "system",
@@ -48,10 +53,22 @@ exports.recapStory = async (req, res) => {
         },
       ],
     });
-    gpt_response = completion.choices[0].message.content;
 
-    res.status(201).json({ message: gpt_response });
+    res.setHeader("Content-Type", "text/event-stream");
+    res.setHeader("Cache-Control", "no-cache");
+    res.setHeader("Connection", "keep-alive");
+
+    for await (const chunk of stream) {
+      let content = chunk.choices[0]?.delta?.content || "";
+      console.log(content);
+      content = content.replace(/\n/g, "<newline>");
+      res.write(`data: ${content}\n\n`);
+    }
+
+    res.write("data: [DONE]\n\n");
+    res.end();
   } catch (e) {
+    console.log(e);
     res.status(400).json({ message: `Try again. ${e}` });
   }
 };

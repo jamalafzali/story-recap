@@ -1,15 +1,13 @@
+import { Box, Paper } from "@mui/material";
+
 import React from "react";
 import ReactMarkdown from "react-markdown";
-import { Box, Paper } from "@mui/material";
 
 const Chatbox = ({ summary }) => {
   const MarkdownComponent = ({ markdownText }) => {
-    const cleanMarkdown = (text) =>
-      text
-        .replace(/\*\*\s+(.+?)\s+\*\*/g, "**$1**") // Removes spaces within **bold text**
-        .replace(/(\*\*.+?\*\*)(?=\s*:)/g, "$1"); // Fixes punctuation after bold text (e.g., "**text**:")
-
+    const cleanMarkdown = (text) => text.replace(/<newline>/g, "\n");
     const cleanedText = cleanMarkdown(markdownText);
+    console.log(cleanedText);
     return (
       <div>
         <ReactMarkdown>{cleanedText}</ReactMarkdown>
