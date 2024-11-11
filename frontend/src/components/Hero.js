@@ -1,4 +1,5 @@
 import * as React from "react";
+
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import CircularProgress from "@mui/material/CircularProgress";
@@ -7,9 +8,8 @@ import InputLabel from "@mui/material/InputLabel";
 import Stack from "@mui/material/Stack";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
-
-import { visuallyHidden } from "@mui/utils";
 import { styled } from "@mui/material/styles";
+import { visuallyHidden } from "@mui/utils";
 
 const StyledBox = styled("div")(({ theme }) => ({
   alignSelf: "center",
@@ -119,6 +119,9 @@ export default function Hero({
             useFlexGap
             sx={{ pt: 2, width: { xs: "100%", sm: "550px" } }}
           >
+            <Typography variant="body1" sx={{ minWidth: 150 }}>
+              Book Name:
+            </Typography>
             <InputLabel htmlFor="book-title-hero" sx={visuallyHidden}>
               Book Title
             </InputLabel>
@@ -139,8 +142,21 @@ export default function Hero({
                 },
               }}
             />
+          </Stack>
+          <Stack
+            direction={{ xs: "column", sm: "row" }}
+            spacing={1}
+            useFlexGap
+            sx={{ pt: 2, width: { xs: "100%", sm: "550px" } }}
+          >
+            <Typography
+              variant="body1"
+              sx={{ minWidth: 150, whiteSpace: "pre-line" }}
+            >
+              {"Page nand/or \nChapter Number:"}
+            </Typography>
             <InputLabel htmlFor="page-number-hero" sx={visuallyHidden}>
-              Book Title
+              Page Number
             </InputLabel>
             <TextField
               id="page-number-hero"
@@ -160,7 +176,7 @@ export default function Hero({
               }}
             />
             <InputLabel htmlFor="chapter-number-hero" sx={visuallyHidden}>
-              Book Title
+              Chapter Number
             </InputLabel>
             <TextField
               id="chapter-number-hero"
