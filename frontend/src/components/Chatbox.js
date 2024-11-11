@@ -7,7 +7,6 @@ const Chatbox = ({ summary }) => {
   const MarkdownComponent = ({ markdownText }) => {
     const cleanMarkdown = (text) => text.replace(/<newline>/g, "\n");
     const cleanedText = cleanMarkdown(markdownText);
-    console.log(cleanedText);
     return (
       <div>
         <ReactMarkdown>{cleanedText}</ReactMarkdown>

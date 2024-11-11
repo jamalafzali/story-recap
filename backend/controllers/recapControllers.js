@@ -60,7 +60,6 @@ exports.recapStory = async (req, res) => {
 
     for await (const chunk of stream) {
       let content = chunk.choices[0]?.delta?.content || "";
-      console.log(content);
       content = content.replace(/\n/g, "<newline>");
       res.write(`data: ${content}\n\n`);
     }
