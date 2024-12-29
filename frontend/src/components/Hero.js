@@ -177,6 +177,17 @@ export default function Hero({
               {loading ? "" : "Recap"}
             </Button>
           </Stack>
+          <Typography
+            sx={{
+              textAlign: "center",
+              color: "text.secondary",
+              width: { sm: "100%", md: "80%" },
+              fontStyle: "italic",
+            }}
+          >
+            Please note that if the site hasn't been used in a while, it may
+            take slightly longer for the initial request.
+          </Typography>
         </Stack>
       </Container>
     </Box>
